@@ -10,7 +10,8 @@ import { Category } from './category.model';
 })
 export class CategoryService {
 
-  private apiPath: string = 'api/categories';
+  private apiPath = 'api/categories';
+  // private apiPath = 'http://localhost:3000/categories';
 
   constructor(private http: HttpClient) { }
 
