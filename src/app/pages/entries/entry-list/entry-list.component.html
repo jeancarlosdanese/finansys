@@ -1,0 +1,76 @@
+<nav class="mb-5">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Lançamentos</li>
+  </ol>
+</nav>
+
+<div class="row mb-4">
+  <div class="col-md">
+    <h1 class="h2 border-left pl-2">
+      Lançamentos
+    </h1>
+  </div>
+  <div class="col-md">
+    <a routerLink="new" class="btn btn-success float-right">
+      + Novo Lançamento
+    </a>
+  </div>
+</div>
+
+
+<table class="table table-hover">
+  <thead>
+    <tr class="bg-dark text-light">
+      <th>Lançamento</th>
+      <th>Categoria</th>
+      <th class="text-right">Valor R$</th>
+      <th class="text-center">Açoes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of entries" >
+      <td>
+        <strong>{{ entry.name }}</strong><br>
+        <small class="text-sucess">{{ entry.documentDate }}</small><br>
+        <small *ngIf="entry.description" >{{ entry.description }}</small>
+      </td>
+      <td>
+        {{ entry.category }}
+      </td>
+      <td class="text-right">
+        <strong [class.text-success]="entry.type === 'Receita'" [class.text-danger]="entry.type === 'Despesa'">
+          {{ entry.amount }}
+        </strong>
+        <br>
+        <span class="badge badge-ligth">{{ entry.paidText }}</span>
+      </td>
+      <td class="text-center">
+        <a [routerLink]="[entry._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+        <button class="btn btn-outline-danger btn-sm" (click)="setEntrySelected(entry)"
+          data-toggle="modal" data-target="#dialogExcluirModal">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="dialogExcluirModal" tabindex="-1" role="dialog" aria-labelledby="dialogExcluirModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dialogExcluirModal">Excluir Lançamento</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente excluir o item: {{ entrySelected?.name || ''}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="deleteEntry()" data-dismiss="modal">Sim</button>
+        <button type="button" class="btn btn-secondary" (click)="setEntrySelected()" data-dismiss="modal">Não</button>
+      </div>
+    </div>
+  </div>
+</div>

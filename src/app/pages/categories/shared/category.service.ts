@@ -70,16 +70,15 @@ export class CategoryService {
 
   private jsonDataToCategories(jsonData: any): Category[] {
     const categories: Category[] = [];
-
     const elements = jsonData.items;
 
-    elements.forEach(element => categories.push(element as Category));
+    elements.forEach(element => categories.push(Object.assign(new Category(), element)));
 
     return categories;
   }
 
   private jsonDataToCategory(jsonData: any): Category {
-    return jsonData as Category;
+    return Object.assign(new Category(), jsonData);
   }
 
   private handleError(error: any): Observable<any> {
