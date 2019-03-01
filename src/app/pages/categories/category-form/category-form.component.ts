@@ -18,7 +18,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   currentAction: string;
   categoryForm: FormGroup;
   pageTitle: string;
-  serverErrorMessages: string[] = null;
+  serverErrorMessages: string[] = undefined;
   submittingForm = false;
   category: Category = new Category();
 
@@ -60,7 +60,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
 
   private buildCategoryForm() {
     this.categoryForm = this.formBuilder.group({
-      id: [null],
+      _id: [null],
       name: [null, [Validators.required, Validators.minLength(2)]],
       description: [null]
     });
@@ -69,9 +69,9 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
   private loadCategory() {
     if (this.currentAction === 'edit') {
       this.route.paramMap
-        .pipe(switchMap(params => this.categoryService.getById(+params.get('id')))
+        .pipe(switchMap(params => this.categoryService.getById(params.get('id')))
       )
-      .subscribe(category => {
+      .subscribe((category) => {
         this.category = category;
         this.categoryForm.patchValue(category);  // binds loaded category data to CategoryForm
       },
@@ -90,10 +90,9 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
 
   private createCategory() {
     const category: Category = Object.assign(new Category(), this.categoryForm.value);
-
     this.categoryService.create(category)
       .subscribe(
-        category => this.actionsForSucess(category),
+        category => this.actionsForSuccess(category),
         error => this.actionsForError(error)
       );
   }
@@ -103,18 +102,18 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
 
     this.categoryService.update(category)
       .subscribe(
-        category => this.actionsForSucess(category),
+        category => this.actionsForSuccess(category),
         error => this.actionsForError(error)
       );
   }
 
-  private actionsForSucess(category: Category) {
+  private actionsForSuccess(category: Category) {
     toastr.success('Solicitação processada com sucesso!');
 
     // redirect/reload component page
     this.router.navigateByUrl('categories', { skipLocationChange: true })
       .then(() => {
-        this.router.navigate(['categories', category.id, 'edit']);
+        this.router.navigate(['categories', category._id, 'edit']);
       });
   }
 
@@ -126,7 +125,7 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
     if (error.status === 422) {
       this.serverErrorMessages = JSON.parse(error._body).errors;
     } else {
-      this.serverErrorMessages = ['FAlha na comunicação com o servidor. Por favor, tente mais tarde.'];
+      this.serverErrorMessages = ['Falha na comunicação com o servidor. Por favor, tente mais tarde.'];
     }
   }
 

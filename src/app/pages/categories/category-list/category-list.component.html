@@ -33,9 +33,31 @@
         <small>{{ category.description }}</small>
       </td>
       <td>
-        <a [routerLink]="[category.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button (click)="deleteCategory(category)" class="btn btn-outline-danger btn-sm">Excluir</button>
+        <a [routerLink]="[category._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+        <button class="btn btn-outline-danger btn-sm" (click)="setCategorySelected(category)"
+          data-toggle="modal" data-target="#dialogExcluirModal">Excluir</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="dialogExcluirModal" tabindex="-1" role="dialog" aria-labelledby="dialogExcluirModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dialogExcluirModal">Excluir Categoria</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente excluir o item: {{ categorySelected?.name || ''}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="deleteCategory()" data-dismiss="modal">Sim</button>
+        <button type="button" class="btn btn-secondary" (click)="setCategorySelected()" data-dismiss="modal">Não</button>
+      </div>
+    </div>
+  </div>
+</div>
