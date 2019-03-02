@@ -50,19 +50,18 @@
           </div>
         </div>
 
-        <!-- amountFormat -->
+        <!-- amount -->
         <div class="form-group col-md-3">
-          <label for="amountFormat">Valor</label>
+          <label for="amount">Valor</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">R$</div>
             </div>
-            <input [imask]="imaskAmountConfig" id="amountFormat" type="text" class="form-control text-right" formControlName="amountFormat">
+            <input [imask]="imaskAmountConfig" id="amount" type="text" class="form-control text-right" formControlName="amount">
           </div>
 
-          <div class="text-danger" *ngIf="entryForm.get('amountFormat').invalid && entryForm.get('amountFormat').touched">
-            <div *ngIf="entryForm.get('amountFormat').errors.required">dado obrigatório</div>
-            <div *ngIf="entryForm.get('amountFormat').errors.minlength">deve ter no mínimo 2 caracteres</div>
+          <div class="text-danger" *ngIf="entryForm.get('amount').invalid && entryForm.get('amount').touched">
+            <div *ngIf="entryForm.get('amount').errors.required">dado obrigatório</div>
           </div>
         </div>
 

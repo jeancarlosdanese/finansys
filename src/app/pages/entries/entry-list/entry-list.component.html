@@ -36,7 +36,7 @@
         <small *ngIf="entry.description" >{{ entry.description }}</small>
       </td>
       <td>
-        {{ entry.category }}
+        {{ entry.category.name }}
       </td>
       <td class="text-right">
         <strong [class.text-success]="entry.type === 'Receita'" [class.text-danger]="entry.type === 'Despesa'">
@@ -74,3 +74,5 @@
     </div>
   </div>
 </div>
+
+<!-- <pre>{{ entries | json }}</pre> -->

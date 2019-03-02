@@ -10,6 +10,7 @@ import { EntryService } from '../shared/entry.service';
 import { Entry } from '../shared/entry.model';
 import { Category } from './../../categories/shared/category.model';
 import * as currencyFormatter from 'currency-formatter';
+import { Utils } from 'src/app/common/utils';
 
 @Component({
   selector: 'app-entry-form',
@@ -54,7 +55,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     private router: Router,
     private formBuilder: FormBuilder,
     private categoryService: CategoryService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.setCurrentAction();
@@ -103,7 +104,6 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       description: [null],
       type: ['DESPESA', [Validators.required]],
       amount: [null, [Validators.required]],
-      amountFormat: [null, [Validators.required]],
       date: [new Date(), [Validators.required]],
       paid: [true, [Validators.required]],
       category: [null, [Validators.required]]
@@ -115,16 +115,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.route.paramMap
         .pipe(switchMap(params => this.entryService.getById(params.get('id')))
       )
-      .subscribe(entry => {
-        entry.date = new Date(entry.date);
-        // entry.amountFormat = entry.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        // entry.amountFormat = currencyFormatter.format(entry.amount, {locale: 'pt_BR'});
-        entry.amountFormat = entry.amount.toString();
-
-        console.log(entry);
-
-        this.entryForm.patchValue(entry);
-      },
+      .subscribe(entry => this.entryForm.patchValue(entry),
       error => alert('Ocorreu um erro no servidor, tente mais tarde'));
     }
   }
@@ -140,6 +131,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
 
   private createEntry() {
     const entry: Entry = Object.assign(new Entry(), this.entryForm.value);
+
     this.entryService.create(entry)
       .subscribe(
         entry => this.actionsForSuccess(entry),
