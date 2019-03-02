@@ -1,3 +1,4 @@
+import { CategoryService } from './../../categories/shared/category.service';
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +8,8 @@ import toastr from 'toastr';
 
 import { EntryService } from '../shared/entry.service';
 import { Entry } from '../shared/entry.model';
+import { Category } from './../../categories/shared/category.model';
+import * as currencyFormatter from 'currency-formatter';
 
 @Component({
   selector: 'app-entry-form',
@@ -21,18 +24,43 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   serverErrorMessages: string[] = undefined;
   submittingForm = false;
   entry: Entry = new Entry();
+  categories: Array<Category>;
+
+  imaskAmountConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: '.',
+    padFractionalZeros: true,
+    normalizeZeros: true,
+    radix: ','
+  };
+
+  ptBR = {
+    firstDayOfWeek: 0,
+    dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+    dayNamesMin: ['Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'],
+    monthNames: [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro' ],
+    monthNamesShort: [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+    today: 'Hoje',
+    clear: 'Limpar',
+    dateFormat: 'dd/mm/yy'
+  };
 
   constructor(
     private entryService: EntryService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private categoryService: CategoryService
   ) { }
 
   ngOnInit() {
     this.setCurrentAction();
     this.buildEntryForm();
     this.loadEntry();
+    this.loadCategories();
   }
 
   ngAfterContentChecked() {
@@ -49,6 +77,16 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  get typeOptions(): Array<any> {
+    return Object.entries(Entry.types)
+      .map(([value, text]) => {
+        return {
+          text,
+          value
+        };
+      });
+  }
+
   // private methods
   private setCurrentAction() {
     if (this.route.snapshot.url[0].path === 'new') {
@@ -63,10 +101,11 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       _id: [null],
       name: [null, [Validators.required, Validators.minLength(2)]],
       description: [null],
-      type: [null, [Validators.required]],
+      type: ['DESPESA', [Validators.required]],
       amount: [null, [Validators.required]],
-      documentDate: [new Date(), [Validators.required]],
-      dueDate: [new Date(), [Validators.required]],
+      amountFormat: [null, [Validators.required]],
+      date: [new Date(), [Validators.required]],
+      paid: [true, [Validators.required]],
       category: [null, [Validators.required]]
     });
   }
@@ -76,9 +115,15 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.route.paramMap
         .pipe(switchMap(params => this.entryService.getById(params.get('id')))
       )
-      .subscribe((entry) => {
-        this.entry = entry;
-        this.entryForm.patchValue(entry);  // binds loaded entry data to EntryForm
+      .subscribe(entry => {
+        entry.date = new Date(entry.date);
+        // entry.amountFormat = entry.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        // entry.amountFormat = currencyFormatter.format(entry.amount, {locale: 'pt_BR'});
+        entry.amountFormat = entry.amount.toString();
+
+        console.log(entry);
+
+        this.entryForm.patchValue(entry);
       },
       error => alert('Ocorreu um erro no servidor, tente mais tarde'));
     }
@@ -132,6 +177,11 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     } else {
       this.serverErrorMessages = ['Falha na comunicação com o servidor. Por favor, tente mais tarde.'];
     }
+  }
+
+  private loadCategories() {
+    this.categoryService.getAll()
+      .subscribe(categories => this.categories = categories);
   }
 
 }
