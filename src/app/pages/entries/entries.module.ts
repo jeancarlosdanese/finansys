@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './../../shared/shared.module';
 
 import { CalendarModule } from 'primeng/calendar';
 import { IMaskModule } from 'angular-imask';
@@ -12,8 +11,7 @@ import { EntryFormComponent } from './entry-form/entry-form.component';
 @NgModule({
   declarations: [EntryListComponent, EntryFormComponent],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
+    SharedModule,
     CalendarModule,
     IMaskModule,
     EntriesRoutingModule
