@@ -1,4 +1,5 @@
 import { Category } from '../../categories/shared/category.model';
+import { Moment } from 'moment';
 
 export class Entry {
 

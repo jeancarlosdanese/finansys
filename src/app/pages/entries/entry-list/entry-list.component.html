@@ -32,14 +32,14 @@
     <tr *ngFor="let entry of entries" >
       <td>
         <strong>{{ entry.name }}</strong><br>
-        <small class="text-sucess">{{ entry.documentDate }}</small><br>
+        <small class="text-sucess">{{ entry.date.toLocaleDateString() }}</small><br>
         <small *ngIf="entry.description" >{{ entry.description }}</small>
       </td>
       <td>
         {{ entry.category.name }}
       </td>
       <td class="text-right">
-        <strong [class.text-success]="entry.type === 'Receita'" [class.text-danger]="entry.type === 'Despesa'">
+        <strong [class.text-success]="entry.type === 'RECEITA'" [class.text-danger]="entry.type === 'DESPESA'">
           {{ entry.amount }}
         </strong>
         <br>

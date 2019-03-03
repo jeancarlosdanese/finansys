@@ -6,7 +6,7 @@ import { map, catchError, flatMap} from 'rxjs/operators';
 import * as currencyFormatter from 'currency-formatter';
 
 import { Entry } from './entry.model';
-import { Utils } from 'src/app/common/utils';
+import { NumberUtil } from 'src/app/common/number.util';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +42,7 @@ export class EntryService {
   }
 
   create(entry: Entry): Observable<Entry> {
-    entry.amount = Utils.convertCurrencyBrToNumber(entry.amount.toString());
+    entry.amount = NumberUtil.convertCurrencyBrToNumber(entry.amount.toString());
 
     return this.http.post(this.apiPath, entry, this.options)
       .pipe(
@@ -54,7 +54,7 @@ export class EntryService {
   update(entry: Entry): Observable<Entry> {
     const url = `${this.apiPath}/${entry._id}`;
 
-    entry.amount = Utils.convertCurrencyBrToNumber(entry.amount.toString());
+    entry.amount = NumberUtil.convertCurrencyBrToNumber(entry.amount.toString());
 
     return this.http.put(url, entry, this.options)
       .pipe(
@@ -79,12 +79,13 @@ export class EntryService {
 
     elements.forEach(element => {
       const entry: Entry = Object.assign(new Entry(), element);
+      entry.date = new Date(entry.date);
       entry.amount = currencyFormatter.format(entry.amount, {locale: 'pt_BR'});
 
       entries.push(entry);
     });
 
-    return entries;
+    return entries.sort((a,b) => b.date.valueOf() - a.date.valueOf());
   }
 
   private jsonDataToEntry(jsonData: any): Entry {

@@ -10,7 +10,7 @@ import { EntryService } from '../shared/entry.service';
 import { Entry } from '../shared/entry.model';
 import { Category } from './../../categories/shared/category.model';
 import * as currencyFormatter from 'currency-formatter';
-import { Utils } from 'src/app/common/utils';
+import { NumberUtil } from 'src/app/common/number.util';
 
 @Component({
   selector: 'app-entry-form',
