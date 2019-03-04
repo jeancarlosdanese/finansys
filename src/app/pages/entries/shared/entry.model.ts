@@ -1,7 +1,7 @@
 import { Category } from '../../categories/shared/category.model';
-import { Moment } from 'moment';
+import { BaseModel } from 'src/app/shared/models/base.model';
 
-export class Entry {
+export class Entry extends BaseModel {
 
   constructor(
     public _id?: string,
@@ -16,7 +16,9 @@ export class Entry {
     public category?: Category,
     public _links?: any,
     public __v?: number
-  ) { }
+  ) {
+    super();
+  }
 
   static types = {
     DESPESA: 'Despesa',

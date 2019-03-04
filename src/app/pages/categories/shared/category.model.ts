@@ -1,4 +1,6 @@
-export class Category {
+import { BaseModel } from 'src/app/shared/models/base.model';
+
+export class Category extends BaseModel {
 
   constructor(
     public _id?: string,
@@ -6,6 +8,8 @@ export class Category {
     public description?: string,
     public links?: any,
     public __v?: number
-  ) {}
+  ) {
+    super();
+  }
 
 }
