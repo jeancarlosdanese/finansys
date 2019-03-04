@@ -1,6 +1,6 @@
-import { BaseModel } from 'src/app/shared/models/base.model';
+import { BaseResourceModel } from 'src/app/shared/models/base-resource.model';
 
-export class Category extends BaseModel {
+export class Category extends BaseResourceModel {
 
   constructor(
     public _id?: string,
@@ -12,4 +12,7 @@ export class Category extends BaseModel {
     super();
   }
 
+  static fromJson(jsonData: any): Category {
+   return Object.assign(new Category(), jsonData);
+  }
 }

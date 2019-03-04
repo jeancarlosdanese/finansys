@@ -115,7 +115,10 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.route.paramMap
         .pipe(switchMap(params => this.entryService.getById(params.get('id')))
       )
-      .subscribe(entry => this.entryForm.patchValue(entry),
+      .subscribe(entry => {
+        entry.amount = entry.amount.toString();
+        this.entryForm.patchValue(entry);
+      },
       error => alert('Ocorreu um erro no servidor, tente mais tarde'));
     }
   }
@@ -130,7 +133,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private createEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryForm.value);
+    const entry: Entry = this.formValueToEntry();
 
     this.entryService.create(entry)
       .subscribe(
@@ -140,7 +143,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private updateEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryForm.value);
+    const entry: Entry = this.formValueToEntry();
 
     this.entryService.update(entry)
       .subscribe(
@@ -174,6 +177,13 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   private loadCategories() {
     this.categoryService.getAll()
       .subscribe(categories => this.categories = categories);
+  }
+
+  private formValueToEntry(): Entry {
+    const entry: Entry = Object.assign(new Entry(), this.entryForm.value);
+    entry.amount = NumberUtil.convertCurrencyBrToNumber(entry.amount.toString());
+
+    return entry;
   }
 
 }
