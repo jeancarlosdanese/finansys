@@ -29,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let entry of entries" >
+    <tr *ngFor="let entry of resources" >
       <td>
         <strong>{{ entry.name }}</strong><br>
         <small class="text-sucess">{{ entry.date.toLocaleDateString() }}</small><br>
@@ -47,7 +47,7 @@
       </td>
       <td class="text-center">
         <a [routerLink]="[entry._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button class="btn btn-outline-danger btn-sm" (click)="setEntrySelected(entry)"
+        <button class="btn btn-outline-danger btn-sm" (click)="setResourceSelected(entry)"
           data-toggle="modal" data-target="#dialogExcluirModal">Excluir</button>
       </td>
     </tr>
@@ -65,11 +65,11 @@
         </button>
       </div>
       <div class="modal-body">
-        Deseja realmente excluir o item: {{ entrySelected?.name || ''}}?
+        Deseja realmente excluir o item: {{ resourceSelected?.name || ''}}?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="deleteEntry()" data-dismiss="modal">Sim</button>
-        <button type="button" class="btn btn-secondary" (click)="setEntrySelected()" data-dismiss="modal">Não</button>
+        <button type="button" class="btn btn-primary" (click)="deleteResource()" data-dismiss="modal">Sim</button>
+        <button type="button" class="btn btn-secondary" (click)="setResourceSelected()" data-dismiss="modal">Não</button>
       </div>
     </div>
   </div>
