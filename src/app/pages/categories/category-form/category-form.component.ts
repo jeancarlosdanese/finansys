@@ -12,8 +12,6 @@ import { BaseResourceFormComponent } from '../../../shared/components/base-resou
 })
 export class CategoryFormComponent extends BaseResourceFormComponent<Category> {
 
-  category: Category = new Category();
-
   constructor(
     protected injector: Injector,
     protected categoryService: CategoryService
@@ -35,7 +33,7 @@ export class CategoryFormComponent extends BaseResourceFormComponent<Category> {
 
   protected editionPageTitle(): string {
     const categoryName = this.resource.name || '';
-    return 'Editando Categoria: ' + categoryName;
+    return `Editando Categoria: ${categoryName}`;
   }
 
 }
