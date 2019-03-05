@@ -22,7 +22,7 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
                  error => alert('Erro ao carrregar a lista'));
   }
 
-  deleteCategory() {
+  deleteResource() {
     // const mustDelete = confirm('Deseja realmente excluir este item?');
     // console.log(this.resourceSelected);
 
