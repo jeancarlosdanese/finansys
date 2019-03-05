@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { BaseResourceModel } from '../../models/base-resource.model';
-import { BaseResouceService } from '../../services/base-resource.service';
+import { BaseResourceService } from '../../services/base-resource.service';
 
 import { switchMap } from 'rxjs/operators';
 import toastr from 'toastr';
@@ -23,7 +23,7 @@ export abstract class BaseResourceFormComponent<T extends BaseResourceModel> imp
   constructor(
     protected injector: Injector,
     public resource: T,
-    protected resourceService: BaseResouceService<T>,
+    protected resourceService: BaseResourceService<T>,
     protected jsonDataToResoureFn: (jsonDate) => T
   ) {
     this.route = this.injector.get(ActivatedRoute);

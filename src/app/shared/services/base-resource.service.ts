@@ -6,7 +6,7 @@ import { map, catchError} from 'rxjs/operators';
 
 import { BaseResourceModel } from '../models/base-resource.model';
 
-export abstract class BaseResouceService<T extends BaseResourceModel> {
+export abstract class BaseResourceService<T extends BaseResourceModel> {
 
   // tslint:disable-next-line:max-line-length
   private apiToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpc3MiOiJtZWF0LWFwaSIsImlhdCI6MTU1MTMxMDk0OX0.l1OJD0Yv6pILpSFFDSWtuJ6w33rn1tm60C5-EIE6J_Q';

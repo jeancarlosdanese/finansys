@@ -2,12 +2,12 @@ import { Injectable, Injector } from '@angular/core';
 import * as currencyFormatter from 'currency-formatter';
 
 import { Entry } from './entry.model';
-import { BaseResouceService } from 'src/app/shared/services/base-resource.service';
+import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EntryService extends BaseResouceService<Entry> {
+export class EntryService extends BaseResourceService<Entry> {
 
   constructor(protected injector: Injector) {
     super(injector, 'http://localhost:3000/entries', Entry.fromJson);
