@@ -50,22 +50,29 @@ export class ReportsComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getAll()
       .subscribe(categories => this.categories = categories);
+
+    this.generateReports();
   }
 
   public generateReports() {
     const month = this.month.nativeElement.value;
     const year = this.year.nativeElement.value;
 
-    if (!month || !year) {
+    this.entryService.getByMonthAndYear(month, year)
+      .subscribe(this.setValues.bind(this));
+
+    /* if (!month || !year) {
       toastr.warning('Você precisa selecionar o Mês e o Ano para gerar relatórios');
     } else {
       this.entryService.getByMonthAndYear(month, year)
-      .subscribe(this.setValues.bind(this));
-    }
+        .subscribe(this.setValues.bind(this));
+    } */
   }
 
   private setValues(entries: Entry[]) {
     this.entries = entries;
+    console.log(this.entries);
+
 
     this.calcultaeBalance();
     this.setChartData();
@@ -101,7 +108,7 @@ export class ReportsComponent implements OnInit {
     this.categories.forEach(category => {
       // filtering entries by category and type
       const filteredEntries = this.entries.filter(entry =>
-        (entry.category === category._id) && (entry.type === entryType)
+        (entry.category._id === category._id) && (entry.type === entryType)
       );
 
       // if found entries, then sum entries and add to chartData
