@@ -1,8 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import * as currencyFormatter from 'currency-formatter';
 
 import { Entry } from './entry.model';
 import { BaseResourceService } from 'src/app/shared/services/base-resource.service';
+
+import { Observable } from 'rxjs';
+import { map, catchError} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +25,7 @@ export class EntryService extends BaseResourceService<Entry> {
     elements.forEach(element => {
       const entry: Entry = Entry.fromJson(element);
       entry.date = new Date(entry.date);
-      entry.amount = currencyFormatter.format(entry.amount, {locale: 'pt_BR'});
+      entry.amount = currencyFormatter.format(entry.amount, {code: 'BRL'});
 
       entries.push(entry);
     });
@@ -35,6 +39,17 @@ export class EntryService extends BaseResourceService<Entry> {
     // entry.amount = entry.amount;
 
     return entry;
+  }
+
+  public getByMonthAndYear(month: number, year: number): Observable<Entry[]> {
+
+    const params = new HttpParams({fromString: 'month=' + month + '&year=' + year});
+
+    return this.http.get(this.apiPath, { params })
+      .pipe(
+        map(this.jsonDataToResources.bind(this)),
+        catchError(this.handleError)
+      );
   }
 
 }

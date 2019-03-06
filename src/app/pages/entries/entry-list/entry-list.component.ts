@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Entry } from '../shared/entry.model';
 import { EntryService } from '../shared/entry.service';
-import { BaseResourceListComponent } from 'src/app/shared/components/base-resource-list/base-resource-list.component';
+import { BaseResourceListComponent } from '../../../shared/components/base-resource-list/base-resource-list.component';
+
+import * as currencyFormatter from 'currency-formatter';
+import { forEach } from '@angular/router/src/utils/collection';
+
 @Component({
   selector: 'app-entry-list',
   templateUrl: './entry-list.component.html',

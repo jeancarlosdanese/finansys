@@ -1,7 +1,7 @@
 export class NumberUtil {
 
-  static convertCurrencyBrToNumber(currency: string) {
-    currency = currency.replace(/\./g, '').replace(',', '.');
+  static convertCurrencyBrToNumber(currency: string): any {
+    currency = currency.replace('R$', '').trim().replace(/\./g, '').replace(',', '.');
     return Number(currency);
   }
 
