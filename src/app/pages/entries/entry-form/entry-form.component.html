@@ -19,7 +19,7 @@
       <div class="form-row">
         <!-- type -->
         <div class="form-group col-md-2">
-          <label for="name">Tipo</label>
+          <label for="type">Tipo</label>
           <select id="type" type="text" class="form-control" formControlName="type">
               <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.text }}</option>
           </select>
@@ -27,32 +27,46 @@
           <app-form-field-error class="text-danger" [form-control]="resourceForm.get('type')"></app-form-field-error>
         </div>
 
-        <!-- name -->
+        <!-- category -->
+        <div class="form-group col-md-3">
+          <label for="category">Categoria</label>
+          <select id="category" type="text" class="form-control" formControlName="category">
+              <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
+          </select>
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('category')"></app-form-field-error>
+        </div>
+
+        <!-- description -->
         <div class="form-group col-md-5">
+          <label for="description">Descrição</label>
+          <input id="description" type="text" class="form-control" formControlName="description">
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('description')"></app-form-field-error>
+        </div>
+
+        <!-- document -->
+        <div class="form-group col-md-2">
+          <label for="document">Documento</label>
+          <input id="document" type="text" class="form-control text-right" formControlName="document">
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('document')"></app-form-field-error>
+        </div>
+
+        <!-- name -->
+        <!-- <div class="form-group col-md-5">
           <label for="name">Lançamento</label>
           <input id="name" type="text" class="form-control" formControlName="name">
 
-          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('name')"></app-form-field-error>
-          <!-- <div class="text-danger" *ngIf="resourceForm.get('name').invalid && resourceForm.get('name').touched">
+          <div class="text-danger" *ngIf="resourceForm.get('name').invalid && resourceForm.get('name').touched">
             <div *ngIf="resourceForm.get('name').errors.required">dado obrigatório</div>
             <div *ngIf="resourceForm.get('name').errors.minlength">deve ter no mínimo 2 caracteres</div>
-          </div> -->
-
-          <!-- <pre>{{resourceForm.get('name').errors | json}} </pre> -->
-        </div>
-
-        <!-- amount -->
-        <div class="form-group col-md-3">
-          <label for="amount">Valor</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text">R$</div>
-            </div>
-            <input [imask]="imaskAmountConfig" id="amount" type="text" class="form-control text-right" formControlName="amount">
           </div>
+        </div> -->
 
-          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('amount')"></app-form-field-error>
-        </div>
+      </div>
+
+      <div class="form-row">
 
         <!-- date -->
         <div class="form-group col-md-2">
@@ -68,9 +82,30 @@
 
           <app-form-field-error class="text-danger" [form-control]="resourceForm.get('date')"></app-form-field-error>
         </div>
-      </div>
 
-      <div class="form-row">
+        <!-- amount -->
+        <div class="form-group col-md-3">
+          <label for="amount">Valor</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">R$</div>
+            </div>
+            <input [imask]="imaskAmountConfig" id="amount" type="text" class="form-control text-right" formControlName="amount">
+          </div>
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('amount')"></app-form-field-error>
+        </div>
+
+        <!-- provider -->
+        <div class="form-group col-md-5">
+          <label for="provider">Fornecedor</label>
+          <select id="provider" type="text" class="form-control" formControlName="provider">
+              <option *ngFor="let provider of providers" [value]="provider._id">{{ provider.name }}</option>
+          </select>
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('provider')"></app-form-field-error>
+        </div>
+
         <!-- paid -->
         <div class="form-group col-md-2">
           <label for="paid">Pago</label>
@@ -88,23 +123,6 @@
           <app-form-field-error class="text-danger" [form-control]="resourceForm.get('paid')"></app-form-field-error>
         </div>
 
-        <!-- category -->
-        <div class="form-group col-md-3">
-          <label for="category">Tipo</label>
-          <select id="category" type="text" class="form-control" formControlName="category">
-              <option *ngFor="let category of categories" [value]="category._id">{{ category.name }}</option>
-          </select>
-
-          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('category')"></app-form-field-error>
-        </div>
-
-        <!-- description -->
-        <div class="form-group col-md-7">
-          <label for="description">Descrição</label>
-          <input id="description" type="text" class="form-control" formControlName="description">
-
-          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('description')"></app-form-field-error>
-        </div>
       </div>
     </div>
   </div>

@@ -71,8 +71,6 @@ export class ReportsComponent implements OnInit {
 
   private setValues(entries: Entry[]) {
     this.entries = entries;
-    console.log(this.entries);
-
 
     this.calcultaeBalance();
     this.setChartData();
@@ -85,7 +83,7 @@ export class ReportsComponent implements OnInit {
     this.entries.forEach(entry => {
       const amount = NumberUtil.convertCurrencyBrToNumber(entry.amount);
 
-      if (entry.type === 'DESPESA') {
+      if (entry.type === 'EXPENSE') {
         expenseTotal += amount;
       } else {
         revenueTotal += amount;
@@ -98,8 +96,8 @@ export class ReportsComponent implements OnInit {
   }
 
   private setChartData() {
-    this.revenueChartData = this.getChartData('RECEITA', 'Gráfico de Receitas', '#9ccc65');
-    this.expenseChartData = this.getChartData('DESPESA', 'Gráfico de Despesas', '#e03131');
+    this.revenueChartData = this.getChartData('REVENUE', 'Gráfico de Receitas', '#9ccc65');
+    this.expenseChartData = this.getChartData('EXPENSE', 'Gráfico de Despesas', '#e03131');
   }
 
   private getChartData(entryType: string, title: string, color: string) {
@@ -108,7 +106,7 @@ export class ReportsComponent implements OnInit {
     this.categories.forEach(category => {
       // filtering entries by category and type
       const filteredEntries = this.entries.filter(entry =>
-        (entry.category._id === category._id) && (entry.type === entryType)
+        ((entry.category._id ? entry.category._id : entry.category) === category._id) && (entry.type === entryType)
       );
 
       // if found entries, then sum entries and add to chartData

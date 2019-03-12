@@ -1,44 +1,44 @@
 <app-bread-crumb
-  [items]="[{ text: 'Categorias' }]"
+  [items]="[{ text: 'Fornecedores' }]"
 ></app-bread-crumb>
 
 <app-page-header
-  page-title="Categorias"
-  button-text="+ Nova Categoria"
+  page-title="Fornecedores"
+  button-text="+ Novo Fornecedor"
   button-link="new"
   button-class="btn-success"
 ></app-page-header>
 
-<!-- <app-server-error-messages [server-error-messages]="serverErrorMessages"></app-server-error-messages> -->
-
 <table class="table table-hover">
   <thead>
     <tr class="bg-dark text-light">
-      <th>Categoria</th>
+      <th>Fornecedor</th>
       <th>Açoes</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let category of resources" >
+    <tr *ngFor="let fornecedor of resources" >
       <td>
-        <strong>{{ category.name }}</strong><br>
-        <small>{{ category.description }}</small>
+        <strong>{{ fornecedor.name }}</strong><br>
+        <small>{{ fornecedor.document }}</small>
       </td>
       <td>
-        <a [routerLink]="[category._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button class="btn btn-outline-danger btn-sm" (click)="setResourceSelected(category)"
+        <a [routerLink]="[fornecedor._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+        <button class="btn btn-outline-danger btn-sm" (click)="setResourceSelected(fornecedor)"
           data-toggle="modal" data-target="#dialogExcluirModal">Excluir</button>
       </td>
     </tr>
   </tbody>
 </table>
 
+<!-- <app-server-error-messages [server-error-messages]="serverErrorMessages"></app-server-error-messages> -->
+
 <!-- Modal -->
 <div class="modal fade" id="dialogExcluirModal" tabindex="-1" role="dialog" aria-labelledby="dialogExcluirModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="dialogExcluirModal">Excluir Categoria</h5>
+        <h5 class="modal-title" id="dialogExcluirModal">Excluir Fornecedor</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

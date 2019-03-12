@@ -11,6 +11,8 @@ import { CategoryService } from './../../categories/shared/category.service';
 
 import { NumberUtil } from 'src/app/common/number.util';
 import { BaseResourceFormComponent } from '../../../shared/components/base-resource-from/base-resource-form.component';
+import { Provider } from '../../providers/shared/provider.model';
+import { ProviderService } from '../../providers/shared/provider.service';
 
 @Component({
   selector: 'app-entry-form',
@@ -20,6 +22,7 @@ import { BaseResourceFormComponent } from '../../../shared/components/base-resou
 export class EntryFormComponent extends BaseResourceFormComponent<Entry> implements OnInit  {
 
   categories: Array<Category>;
+  providers: Array<Provider>;
 
   imaskAmountConfig = {
     mask: Number,
@@ -46,13 +49,15 @@ export class EntryFormComponent extends BaseResourceFormComponent<Entry> impleme
   constructor(
     protected injector: Injector,
     protected entryService: EntryService,
-    protected categoryService: CategoryService
+    protected categoryService: CategoryService,
+    protected providerService: ProviderService
   ) {
     super(injector, new Entry(), entryService, Entry.fromJson);
   }
 
   ngOnInit() {
     this.loadCategories();
+    this.loadProviders();
     super.ngOnInit();
   }
 
@@ -69,13 +74,14 @@ export class EntryFormComponent extends BaseResourceFormComponent<Entry> impleme
   protected buildResourceForm(): void {
     this.resourceForm = this.formBuilder.group({
       _id: [null],
-      name: [null, [Validators.required, Validators.minLength(2)]],
-      description: [null],
-      type: ['DESPESA', [Validators.required]],
+      description: [null, [Validators.required, Validators.minLength(2)]],
+      document: [null],
+      type: ['EXPENSE', [Validators.required]],
       amount: [null, [Validators.required]],
       date: [new Date(), [Validators.required]],
       paid: [true, [Validators.required]],
-      category: [null, [Validators.required]]
+      category: [null, [Validators.required]],
+      provider: [null, [Validators.required]]
     });
   }
 
@@ -118,6 +124,11 @@ export class EntryFormComponent extends BaseResourceFormComponent<Entry> impleme
       .subscribe(categories => this.categories = categories);
   }
 
+  private loadProviders() {
+    this.providerService.getAll()
+      .subscribe(providers => this.providers = providers);
+  }
+
   private formValueToEntry(): Entry {
     const entry: Entry = Object.assign(new Entry(), this.resourceForm.value);
     entry.amount = NumberUtil.convertCurrencyBrToNumber(entry.amount.toString());
@@ -130,8 +141,8 @@ export class EntryFormComponent extends BaseResourceFormComponent<Entry> impleme
   }
 
   protected editionPageTitle(): string {
-    const resourceName = this.resource.name || '';
-    return `Editando Lançamento ${resourceName ? ': ' + resourceName : ''}`;
+    const resourceDescription = this.resource.description || '';
+    return `Editando Lançamento ${resourceDescription ? ': ' + resourceDescription : ''}`;
   }
 
 }

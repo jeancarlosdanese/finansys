@@ -17,7 +17,7 @@ export class EntryListComponent extends BaseResourceListComponent<Entry> impleme
   entrySelected: Entry;
 
   constructor(
-    private entryService: EntryService
+    protected entryService: EntryService
   ) {
     super(entryService);
   }

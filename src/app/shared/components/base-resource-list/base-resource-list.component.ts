@@ -10,7 +10,7 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
 
   resources: T[] = [];
   resourceSelected: T;
-  serverErrorMessages: string[] = undefined;
+  // serverErrorMessages: string[] = undefined;
 
   constructor(
     protected resourceService: BaseResourceService<T>
@@ -33,7 +33,7 @@ export abstract class BaseResourceListComponent<T extends BaseResourceModel> imp
         respError => {
           toastr.error('Erro ao tentar excluir o registro. ' + respError.error.message);
 
-          this.serverErrorMessages = ['Erro ao tentar excluir o registro. ' + respError.error.message];
+          // this.serverErrorMessages = ['Erro ao tentar excluir o registro. ' + respError.error.message];
         }
       );
     // }

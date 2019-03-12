@@ -1,12 +1,13 @@
-import { Category } from '../../categories/shared/category.model';
 import { BaseResourceModel } from '../../../shared/models/base-resource.model';
+import { Category } from '../../categories/shared/category.model';
+import { Provider } from '../../providers/shared/provider.model';
 
 export class Entry extends BaseResourceModel {
 
   constructor(
     public _id?: string,
-    public name?: string,
     public description?: string,
+    public document?: string,
     public type?: string,
     public amount?: any,
     // public amountFormat?: string,
@@ -14,6 +15,7 @@ export class Entry extends BaseResourceModel {
     public paid?: boolean,
     // public categoryId?: string,
     public category?: Category,
+    public provider?: Provider,
     public _links?: any,
     public __v?: number
   ) {
@@ -21,8 +23,8 @@ export class Entry extends BaseResourceModel {
   }
 
   static types = {
-    DESPESA: 'Despesa',
-    RECEITA: 'Receita'
+    EXPENSE: 'Despesa',
+    REVENUE: 'Receita'
   };
 
   static fromJson(jsonData: any): Entry {

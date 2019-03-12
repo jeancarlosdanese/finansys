@@ -1,0 +1,54 @@
+<app-bread-crumb
+  [items]="[{ text: 'Fornecedores', link: '/providers' }, { text: pageTitle }]"
+></app-bread-crumb>
+
+<app-page-header
+  [page-title]="pageTitle"
+  button-text="« Voltar"
+  button-link="/providers"
+  button-class="btn-light"
+></app-page-header>
+
+<form [formGroup]="resourceForm" (submit)="submitForm()">
+  <div class="card">
+    <div class="card-header">
+      Informações sobre o Fornecedor
+    </div>
+
+    <div class="card-body">
+      <div class="form-row">
+        <!-- type -->
+        <div class="form-group col-md-2">
+            <label for="type">Tipo</label>
+            <select id="type" type="text" class="form-control" formControlName="type">
+                <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.text }}</option>
+            </select>
+
+            <app-form-field-error class="text-danger" [form-control]="resourceForm.get('type')"></app-form-field-error>
+          </div>
+
+        <!-- name  -->
+        <div class="form-group col-md-6">
+          <label for="name">Nome</label>
+          <input id="name" type="text" class="form-control" formControlName="name">
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('name')"></app-form-field-error>
+        </div>
+
+        <!-- document -->
+        <div class="form-group col-md-4">
+          <label for="document">Documento (CPF)</label>
+          <input id="document" type="text" class="form-control" formControlName="document">
+
+          <app-form-field-error class="text-danger" [form-control]="resourceForm.get('document')"></app-form-field-error>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-server-error-messages [server-error-messages]="serverErrorMessages"></app-server-error-messages>
+
+  <button [disabled]="submittingForm || resourceForm.invalid" type="submit" class="btn btn-dark btn-lg float-right mt-3">
+    Salvar
+  </button>
+</form>
