@@ -2,12 +2,94 @@
   [items]="[{ text: 'Lançamentos' }]"
 ></app-bread-crumb>
 
-<app-page-header
+<!-- <app-page-header
   page-title="Lançamentos"
   button-text="+ Novo Lançamento"
   button-link="new"
   button-class="btn-success"
-></app-page-header>
+></app-page-header> -->
+
+<div class="card">
+
+  <!-- <form> -->
+    <div class="card-body">
+
+      <div class="form-row">
+
+        <div class="col-md-12">
+          <h1 class="h2 pl-2">
+            Lançamentos
+          </h1>
+        </div>
+
+        <!-- paid -->
+        <div class="form-group col-md-2">
+          <label for="paid">Pago</label>
+          <div class="btn-group">
+            <label class="btn btn-outline-info" >
+              Pago
+            </label>
+            <label class="btn btn-outline-info" >
+              Pendente
+            </label>
+          </div>
+        </div>
+
+        <!-- month -->
+        <div class="form-group col-md-6">
+          <label for="month">Mês</label>
+          <select id="month" type="text" class="form-control" >
+            <option value="null">Selecione um mês</option>
+            <!-- <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option> -->
+          </select>
+        </div>
+
+        <!-- year -->
+        <div class="form-group col-md-4">
+          <label for="year">Ano</label>
+          <select id="year" type="text" class="form-control" >
+            <option value="null">Selecione um ano</option>
+            <!-- <option *ngFor="let year of years" [value]="year">{{ year }}</option> -->
+          </select>
+        </div>
+
+        <div class="col-md-6 text-left">
+          <a routerLink="new" class="btn" ngClass="btn btn-info">
+            Filtrar
+          </a>
+        </div>
+
+        <div class="col-md-6 text-right">
+          <a routerLink="new" class="btn" ngClass="btn btn-success">
+            Novo
+          </a>
+        </div>
+      </div>
+
+    </div>
+  <!-- </form> -->
+</div>
+
+
+<nav class="text-center" aria-label="Barra de paginação">
+  <ul class="pagination">
+    <li class="page-item" *ngIf="links?.prev">
+      <a class="page-link" (click)="loadPage(links.prev)" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item" *ngIf="links?.next">
+      <a class="page-link" (click)="loadPage(links.next)" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 <table class="table table-hover">
   <thead>
@@ -43,6 +125,8 @@
     </tr>
   </tbody>
 </table>
+
+<button class="btn btn-danger float-right" (click)="loadPage(links.next)">Mais</button>
 
 <!-- Modal -->
 <div class="modal fade" id="dialogExcluirModal" tabindex="-1" role="dialog" aria-labelledby="dialogExcluirModal" aria-hidden="true">

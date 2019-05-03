@@ -9,7 +9,10 @@ import { EntryListComponent } from './entry-list/entry-list.component';
 import { EntryFormComponent } from './entry-form/entry-form.component';
 
 @NgModule({
-  declarations: [EntryListComponent, EntryFormComponent],
+  declarations: [
+    EntryListComponent,
+    EntryFormComponent
+  ],
   imports: [
     SharedModule,
     CalendarModule,

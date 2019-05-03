@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 
 import { BaseResourceListComponent } from '../../../shared/components/base-resource-list/base-resource-list.component';
 
@@ -10,14 +10,19 @@ import { ProviderService } from '../shared/provider.service';
   templateUrl: './provider-list.component.html',
   styleUrls: ['./provider-list.component.scss']
 })
-export class ProviderListComponent extends BaseResourceListComponent<Provider> {
+export class ProviderListComponent extends BaseResourceListComponent<Provider> implements OnInit {
 
   providers: Provider[] = [];
 
   constructor(
-    private providerService: ProviderService
+    protected injector: Injector,
+    protected providerService: ProviderService
   ) {
-    super(providerService);
+    super(injector, providerService);
+  }
+
+  ngOnInit() {
+    this.loadPage(`/providers?page=${this.page}&limit=${this.limit}&start=${this.start}`);
   }
 
 }

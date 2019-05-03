@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError} from 'rxjs/operators';
 
 import { BaseResourceModel } from '../models/base-resource.model';
+import { ResultList } from '../models/result-list.model';
 
 export abstract class BaseResourceService<T extends BaseResourceModel> {
 
@@ -27,6 +28,14 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
     return this.http.get(this.apiPath)
       .pipe(
         map(this.jsonDataToResources.bind(this)),
+        catchError(this.handleError)
+      );
+  }
+
+  getPage(url: string): Observable<ResultList> {
+    return this.http.get(`http://localhost:3000${url}`)
+      .pipe(
+        map(this.jsonDataToResultList.bind(this)),
         catchError(this.handleError)
       );
   }
@@ -71,13 +80,32 @@ export abstract class BaseResourceService<T extends BaseResourceModel> {
   }
 
   // protected methods
+  protected jsonDataToResultList(jsonData: any): ResultList {
+    const resources: T[] = [];
+    const elements = jsonData.results;
+
+    elements.forEach(element => resources.push(this.jsonDataToResourceFn(element)));
+
+    const result = new ResultList();
+    result._links = jsonData._links;
+    result.limit = jsonData.limit;
+    result.size = jsonData.size;
+    result.start = jsonData.start;
+
+    result.results = resources;
+
+    console.log(result);
+
+    return result;
+  }
+
   protected jsonDataToResources(jsonData: any): T[] {
-    const categories: T[] = [];
-    const elements = jsonData.items;
+    const resources: T[] = [];
+    const elements = jsonData.results;
 
-    elements.forEach(element => categories.push(this.jsonDataToResourceFn(element)));
+    elements.forEach(element => resources.push(this.jsonDataToResourceFn(element)));
 
-    return categories;
+    return resources;
   }
 
   protected jsonDataToResource(jsonData: any): T {

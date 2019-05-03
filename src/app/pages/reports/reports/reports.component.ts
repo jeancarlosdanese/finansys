@@ -6,7 +6,8 @@ import { CategoryService } from './../../categories/shared/category.service';
 import { Entry } from '../../entries/shared/entry.model';
 import { EntryService } from './../../entries/shared/entry.service';
 
-import toastr from 'toastr';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
+
 import currencyFormater from 'currency-formatter';
 import { NumberUtil } from './../../../common/number.util';
 
@@ -16,6 +17,8 @@ import { NumberUtil } from './../../../common/number.util';
   styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
+
+  faChartLine = faChartLine;
 
   expenseTotal: any = 0;
   revenueTotal: any = 0;
@@ -58,7 +61,7 @@ export class ReportsComponent implements OnInit {
     const month = this.month.nativeElement.value;
     const year = this.year.nativeElement.value;
 
-    this.entryService.getByMonthAndYear(month, year)
+    this.entryService.getByMonthAndYear(null, month, year)
       .subscribe(this.setValues.bind(this));
 
     /* if (!month || !year) {
@@ -72,11 +75,11 @@ export class ReportsComponent implements OnInit {
   private setValues(entries: Entry[]) {
     this.entries = entries;
 
-    this.calcultaeBalance();
+    this.calculateBalance();
     this.setChartData();
   }
 
-  private calcultaeBalance() {
+  private calculateBalance() {
     let expenseTotal = 0;
     let revenueTotal = 0;
 

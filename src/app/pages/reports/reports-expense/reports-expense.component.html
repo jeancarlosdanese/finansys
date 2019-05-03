@@ -1,0 +1,133 @@
+<app-bread-crumb
+  [items]="[{ text: 'Relatório de Receitas e Despesas', link: '/reports' }, { text: 'Relatório de Despesas' }]"
+></app-bread-crumb>
+
+<app-page-header
+  page-title="Relatório de Despesas"
+  button-text="« Voltar"
+  button-link="/reports"
+  button-class="btn-light"
+></app-page-header>
+
+<div class="card">
+  <div class="card-header">
+    Selecione o Mês e Ano para gerar os Relatórios
+  </div>
+
+  <form [formGroup]="filterForm" (submit)="submitForm()">
+    <div class="card-body">
+      <div class="form-row">
+        <!-- paid -->
+        <div class="form-group col-md-2">
+          <label for="paid">Pago</label>
+          <div class="btn-group">
+            <label class="btn btn-outline-info" [class.active]="filterForm.get('paid').value == true"
+                (click)="filterForm.get('paid').setValue(true)" >
+              Pago
+            </label>
+            <label class="btn btn-outline-info" [class.active]="filterForm.get('paid').value == false"
+                (click)="filterForm.get('paid').setValue(false)" >
+              Pendente
+            </label>
+          </div>
+        </div>
+
+        <!-- month -->
+        <div class="form-group col-md-5">
+          <label for="month">Mês</label>
+          <select id="month" type="text" class="form-control" formControlName="month">
+            <option value="null">Selecione um mês</option>
+            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+          </select>
+        </div>
+
+        <!-- year -->
+        <div class="form-group col-md-4">
+          <label for="year">Ano</label>
+          <select id="year" type="text" class="form-control" formControlName="year">
+            <option value="null">Selecione um ano</option>
+            <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="form-row">
+        <div class="col-md text-right">
+          <button class="btn btn-dark float-right" type="button" (click)="generateReports()">Gerar Relatórios</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="card-deck mt-5 mb-5">
+  <div class="card text-center text-white bg-success">
+    <div class="card-header">
+      PAGAS
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        {{ paidTotal }}
+      </h3>
+    </div>
+  </div>
+
+  <div class="card text-center text-white bg-danger">
+    <div class="card-header">
+      PENDENTES
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        {{ noPaidTotal }}
+        <!-- <fa-icon [icon]="faChartLine"></fa-icon> -->
+      </h3>
+    </div>
+  </div>
+
+  <div class="card text-center text-white bg-warning">
+    <div class="card-header">
+      TOTAL DE DESPESAS
+    </div>
+    <div class="card-body">
+      <h3 class="card-title">
+        {{ balance }}
+      </h3>
+    </div>
+  </div>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr class="bg-dark text-light">
+      <th>Lançamento</th>
+      <th>Categoria</th>
+      <th class="text-right">Valor R$</th>
+      <th class="text-center">Açoes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let entry of entries" >
+      <td>
+        <strong>{{ entry.provider.name }}</strong><br>
+        <small class="text-sucess">{{ entry.date.toLocaleDateString() }} {{ entry.document ? ' - Doc: ' + entry.document : '' }} </small><br>
+        <small *ngIf="entry.description" >{{ entry.description }}</small>
+      </td>
+      <td>
+        {{ entry.category.name }}
+      </td>
+      <td class="text-right">
+        <strong [class.text-success]="entry.type === 'REVENUE'" [class.text-danger]="entry.type === 'EXPENSE'">
+          {{ entry.amount }}
+        </strong>
+        <br>
+        <span class="badge badge-ligth">{{ entry.paidText }}</span>
+      </td>
+      <td class="text-center">
+        <a [routerLink]="[entry._id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+        <button class="btn btn-outline-danger btn-sm" (click)="setResourceSelected(entry)"
+          data-toggle="modal" data-target="#dialogExcluirModal">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

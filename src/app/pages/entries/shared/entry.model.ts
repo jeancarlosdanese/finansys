@@ -5,7 +5,7 @@ import { Provider } from '../../providers/shared/provider.model';
 export class Entry extends BaseResourceModel {
 
   constructor(
-    public _id?: string,
+    // public _id?: string,
     public description?: string,
     public document?: string,
     public type?: string,
@@ -16,8 +16,8 @@ export class Entry extends BaseResourceModel {
     // public categoryId?: string,
     public category?: Category,
     public provider?: Provider,
-    public _links?: any,
-    public __v?: number
+    // public _links?: any,
+    // public __v?: number
   ) {
     super();
   }

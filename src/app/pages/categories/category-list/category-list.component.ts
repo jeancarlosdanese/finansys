@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { Category } from '../shared/category.model';
 import { CategoryService } from '../shared/category.service';
 import { BaseResourceListComponent } from '../../../shared/components/base-resource-list/base-resource-list.component';
@@ -8,14 +8,19 @@ import { BaseResourceListComponent } from '../../../shared/components/base-resou
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
-export class CategoryListComponent extends BaseResourceListComponent<Category> {
+export class CategoryListComponent extends BaseResourceListComponent<Category> implements OnInit {
 
   categories: Category[] = [];
 
   constructor(
-    private categoryService: CategoryService
+    protected injector: Injector,
+    protected categoryService: CategoryService
   ) {
-    super(categoryService);
+    super(injector, categoryService);
+  }
+
+  ngOnInit() {
+    this.loadPage(`/categories?page=${this.page}&limit=${this.limit}&start=${this.start}`);
   }
 
 }

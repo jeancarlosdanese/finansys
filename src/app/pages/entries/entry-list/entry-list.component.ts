@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector, HostListener } from '@angular/core';
 import { Entry } from '../shared/entry.model';
 import { EntryService } from '../shared/entry.service';
 import { BaseResourceListComponent } from '../../../shared/components/base-resource-list/base-resource-list.component';
@@ -17,13 +17,15 @@ export class EntryListComponent extends BaseResourceListComponent<Entry> impleme
   entrySelected: Entry;
 
   constructor(
+    protected injector: Injector,
     protected entryService: EntryService
   ) {
-    super(entryService);
+    super(injector, entryService);
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.loadPage(`/entries?page=${this.page}&limit=${this.limit}&start=${this.start}`);
     this.resources = this.resources.sort((a, b) => b.amount - a.amount);
   }
 
